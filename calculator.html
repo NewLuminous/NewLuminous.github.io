@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            element.style {
+                min-height: 72px;
+                padding: 0;
+                width: 652px;
+            }
+
+            div {
+                display: block;
+            }
+
+            h2 {
+                display: block;
+                font-size: 2em;
+                margin-block-start: 0.83em;
+                margin-block-end: 0.83em;
+                margin-inline-start: 0px;
+                margin-inline-end: 0px;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            table {
+                display: table;
+                border-collapse: separate;
+                box-sizing: border-box;
+                border-spacing: 2px;
+                border-color: grey;
+            }
+
+            tbody {
+                display: table-row-group;
+                vertical-align: middle;
+                border-color: inherit;
+            }
+
+            tr {
+                display: table-row;
+                vertical-align: inherit;
+                border-color: inherit;
+            }
+
+            td {
+                display: table-cell;
+                vertical-align: inherit;
+            }
+
+            .calculator-container {
+                clear: both;
+                font-size: 14px;
+                line-height: 1.2;
+                text-align: left;
+                width: 400px;
+                margin-top: 0;
+                margin-bottom: 28px;
+            }
+
+            .card-section {
+                position: relative;
+                background-color: #fff;
+                border-radius: 8px;
+                border: 1px solid #dfe1e5;
+                box-shadow: none;
+            }
+
+            .calculator {
+                position: relative;
+                direction: ltr;
+                margin-left: 12px;
+                margin-right: 12px;
+                padding-bottom: 12px;
+                padding-top: 16px;
+            }
+
+            .calculator-screen {
+                width: 98.5%;
+                height: 72px;
+                border: 1px solid #ebebeb;
+                border-radius: 8px;
+                margin: auto;
+                padding: 10px 14px 0px 10px;
+                box-sizing: border-box;
+            }
+
+            .calculator-screen-result {
+                display: table;
+                font-size: 30px;
+                height: 32px;
+                vertical-align: bottom;
+                position: relative;
+                table-layout: fixed;
+                width: 100%;
+                z-index: 0;
+            }
+
+            .calculator-screen-result > div {
+                display: table-row;
+            }
+
+            .calculator-screen-result-cell {
+                overflow: hidden;
+                display: table-cell;
+                vertical-align: middle;
+                width: 100%;
+            }
+
+            .calculator-screen-result-cell-span {
+                float: right;
+                font-family: arial, sans-serif;
+                white-space: nowrap;
+            }
+
+            .calculator-mid {
+                clip: rect(1px, 1px, 1px, 1px);
+                height: 1px;
+                margin: 0;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                white-space: nowrap;
+                width: 1px;
+                z-index: -1000;
+            }
+
+            .calculator-keyboard {
+                display: table;
+                margin-top: 8px;
+                z-index: 2;
+                position: relative;
+                width: 100%;
+            }
+
+            .calculator-keyboard-layout {
+                width: 98.5%;
+                border-collapse: collapse;
+                table-layout: fixed;
+            }
+
+            .calculator-button-border {
+                cursor: pointer;
+                font-family: arial, sans-serif;
+                text-align: center;
+                line-height: 34px;
+                margin: 4px;
+                box-sizing: border-box;
+                position: relative;
+                border-radius: 4px;
+
+                font-size: 14px;
+            }
+
+            .calculator-button {
+                color: #202124;
+                border: 1px solid;
+                border-radius: 4px;
+
+                outline: none;
+            }
+
+            .button-op {
+                background: #dfe1e5;
+                border-color: #dfe1e5;
+                box-sizing: border-box;
+            }
+
+            .button-digit {
+                background: #f1f3f4;
+                border-color: #f1f3f4;
+            }
+
+            .button-equal {
+                background: #4285f4;
+                border-color: #4285f4;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="calculator-container">
+            <div class='card-section'>
+                <h2>Calculator</h2>
+                <div class='calculator'>
+                    <div>
+                        <div class='calculator-screen'>
+                            <div class='calculator-screen-result'>
+                                <div role="presentation" tabindex="0">
+                                    <div class='calculator-screen-result-cell'>
+                                        <span class='calculator-screen-result-cell-span' id='viewer'>0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='calculator-mid'>
+
+                    </div>
+                    <div class='calculator-keyboard'>
+                        <table class='calculator-keyboard-layout'>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' role="button" tabindex="0">(</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' role="button" tabindex="0">)</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' role="button" tabindex="0">%</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' id='clear' role="button" tabindex="0">AC</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="7">7</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="8">8</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="9">9</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' role="button" tabindex="0" data-ops="divided by">÷</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="4">4</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="5">5</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="6">6</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' role="button" tabindex="0" data-ops="times">×</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="1">1</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="2">2</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="3">3</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' role="button" tabindex="0" data-ops="minus">-</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num="0  ">0</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-digit' role="button" tabindex="0" data-num=".">.</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-equal' id='equals' role="button" tabindex="0" data-result="">=</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class='calculator-button-border'>
+                                            <div class='calculator-button button-op' role="button" tabindex="0" data-ops="plus">+</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            (function() {
+            "use strict";
+
+            var el = function(element) {
+                if (element.charAt(0) === "#") { 
+                    return document.querySelector(element);
+                }
+
+                return document.querySelectorAll(element);
+            };
+
+
+            var viewer = el("#viewer"),
+                equals = el("#equals"),
+                nums = el(".button-digit"),
+                ops = el(".button-op"),
+                theNum = "",
+                oldNum = "",
+                resultNum,
+                operator;
+
+            var setNum = function() {
+                if (resultNum) {
+                    theNum = this.getAttribute("data-num");
+                    resultNum = "";
+                } else {
+                    theNum += this.getAttribute("data-num");
+                }
+                viewer.innerHTML = theNum;
+            };
+
+
+            var moveNum = function() {
+                oldNum = theNum;
+                theNum = "";
+                operator = this.getAttribute("data-ops");
+
+                equals.setAttribute("data-result", "");
+            };
+
+            var displayNum = function() {
+
+                oldNum = parseFloat(oldNum);
+                theNum = parseFloat(theNum);
+
+                switch (operator) {
+                case "plus":
+                    resultNum = oldNum + theNum;
+                    break;
+
+                case "minus":
+                    resultNum = oldNum - theNum;
+                    break;
+
+                case "times":
+                    resultNum = oldNum * theNum;
+                    break;
+
+                case "divided by":
+                    resultNum = oldNum / theNum;
+                    break;
+
+                default:
+                    resultNum = theNum;
+                }
+
+                if (!isFinite(resultNum)) {
+                if (isNaN(resultNum)) {
+                    resultNum = "You broke it!";
+                } else {
+                    resultNum = "Look at what you've done";
+                }
+                }
+
+                viewer.innerHTML = resultNum;
+                equals.setAttribute("data-result", resultNum);
+
+                oldNum = 0;
+                theNum = resultNum;
+
+            };
+
+            var clearAll = function() {
+                oldNum = "";
+                theNum = "";
+                viewer.innerHTML = "0";
+                equals.setAttribute("data-result", resultNum);
+            };
+
+            for (var i = 0, l = nums.length; i < l; i++) {
+                nums[i].onclick = setNum;
+            }
+
+            for (var i = 0, l = ops.length; i < l; i++) {
+                ops[i].onclick = moveNum;
+            }
+
+            equals.onclick = displayNum;
+
+            el("#clear").onclick = clearAll;
+
+            }());
+        </script>
+    </body>
+</html>
